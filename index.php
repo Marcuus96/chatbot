@@ -6,6 +6,7 @@ $dialogflow_post_data = json_decode($dialogflow_post, true);
 $query_result = $dialogflow_post_data['queryResult'];
 $intent_name = $query_result['intent']['displayName'];
 $parameters = $query_result['parameters'];
+$user_text = $query_result['queryText'];
 
 // log input
 $log_file = "/var/www/html/bot/bot.log";
@@ -15,7 +16,7 @@ $content = date('Y-m-d H:i:s') . " DialogFlow Post:\n" . $dialogflow_post . "\n"
 file_put_contents($log_file, $content, FILE_APPEND);
 
 // get output
-$answer = getAnswer($intent_name, $parameters);
+$answer = getAnswer($intent_name, $parameters, $user_text);
 $output_json = json_encode(array(
 		"fulfillmentText" => $answer,
 		"fulfillmentMessages" => array(array("text" => array("text" => array($answer)))),
@@ -30,8 +31,23 @@ file_put_contents($log_file, $content, FILE_APPEND);
 header('Content-type: application/json; charset=utf-8');
 echo $output_json;
 
-function getAnswer($intent_name, $parameters) {
+function getAnswer($intent_name, $parameters, $user_text) {
 	$answer = "Puoi ripetere la richiesta?";
+
+	switch ($intent_name){
+        case ('prenotazione - username'):
+            {
+                if ($parameters['any'] == ''){
+                    $answer = "allora scegli un username per registrarti";
+                }
+                else {
+                    $answer = "ciao " . $user_text . ". bentornato";
+                }
+            }
+            break;
+        default : $answer = "yes";
+    }
+    /*
 	if (strcmp('SimNumberIntent', $intent_name) == 0) {
         	if (array_key_exists('Company', $parameters) && !empty($parameters['Company'])) {
                 	$sim_number = getSimNumber($parameters['Company']);
@@ -56,6 +72,7 @@ function getAnswer($intent_name, $parameters) {
                         $answer = "Non ho capito la company di cui hai richiesto i dati. Puoi ripetere la richiesta?";
                 }
         }
+    */
 
 	return $answer;
 }
