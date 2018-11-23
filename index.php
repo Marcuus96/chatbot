@@ -60,12 +60,12 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 );
 
                 // Setup cURL
-                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Authentication/Authenticate/');
+                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/phpScheduleIt/Web/Services/Resources/Status');
                 curl_setopt_array($ch, array(
-                    CURLOPT_POST => TRUE,
+                    CURLOPT_POST => FALSE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_HTTPHEADER => 'Content-Type: application/json; charset=utf-8',
-                    CURLOPT_POSTFIELDS => json_encode($postData)
+                    //CURLOPT_POSTFIELDS => json_encode($postData)
                 ));
 
                 // Send the request
@@ -80,7 +80,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 if ($response != null) {
                     // Decode the response
                     $responseData = json_decode($response, TRUE);
-                    $answer = "login effettuato: " . $responseData['userId'] . "bye.";
+                    $answer = "login effettuato: " . $responseData['statuses'] . "bye. " . TRUE;
                 }
             }
             break;
