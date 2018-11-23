@@ -64,9 +64,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json'
-                    ),
+                    CURLOPT_HTTPHEADER => 'Content-Type: application/json; charset=utf-8',
                     CURLOPT_POSTFIELDS => json_encode($postData)
                 ));
 
@@ -91,32 +89,6 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
 
     }
-    /*
-	if (strcmp('SimNumberIntent', $intent_name) == 0) {
-        	if (array_key_exists('Company', $parameters) && !empty($parameters['Company'])) {
-                	$sim_number = getSimNumber($parameters['Company']);
-                	if ($sim_number == -1) {
-                        	$answer = "La company " . $parameters['Company'] . " non è censita";
-                	} else {
-                        	$answer = $parameters['Company'] . " ha " . $sim_number . " SIM disponibili";
-                	}
-        	} else {
-                	$answer = "Non ho capito la company di cui hai richiesto i dati. Puoi ripetere la richiesta?";
-        	}
-	}
-	if (strcmp('SimExpenseIntent', $intent_name) == 0) {
-                if (array_key_exists('Company', $parameters) && !empty($parameters['Company'])) {
-                        $sim_expence = getSimExpence($parameters['Company']);
-                        if ($sim_epence == -1) {
-                                $answer = "La company " . $parameters['Company'] . " non è censita";
-                        } else {
-                                $answer = $parameters['Company'] . " ha speso " . $sim_expence . " euro";
-                        }
-                } else {
-                        $answer = "Non ho capito la company di cui hai richiesto i dati. Puoi ripetere la richiesta?";
-                }
-        }
-    */
 
     return $answer;
 }
