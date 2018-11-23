@@ -80,7 +80,10 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 if ($response != null) {
                     // Decode the response
                     $responseData = json_decode($response, TRUE);
-                    $answer = "login effettuato: " . $responseData['statuses'] . "bye. " . TRUE;
+                    if($responseData === NULL)
+                        $answer = "ERROR";
+                    else
+                    $answer = "login effettuato: " . $responseData['statuses'] . "bye.";
                 }
             }
             break;
