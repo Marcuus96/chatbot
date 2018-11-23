@@ -72,7 +72,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                         "Pragma: no-cache",
                         "Cache-Control: no-cache"
                     ),
-                    CURLOPT_POSTFIELDS => json_encode($postData)
+                    CURLOPT_POSTFIELDS => json_encode($postData),
+                    CURLOPT_FAILONERROR => TRUE
                 ));
 
                 // Send the request
