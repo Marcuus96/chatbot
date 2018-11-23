@@ -64,7 +64,14 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => 'Content-Type: application/json; charset=utf-8',
+                    CURLOPT_HTTPHEADER => array (
+                        "Accept: application/json, text/javascript",
+                        "Accept-Language: it;q=0.5",
+                        "Content-Type: application/json;charset=utf-8",
+                        "Connection: keep-alive",
+                        "Pragma: no-cache",
+                        "Cache-Control: no-cache"
+                    ),
                     CURLOPT_POSTFIELDS => json_encode($postData)
                 ));
 
