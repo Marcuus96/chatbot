@@ -64,6 +64,9 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json'
+                    ),
                     CURLOPT_POSTFIELDS => json_encode($postData)
                 ));
 
@@ -76,11 +79,11 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     break;
                 }
 
-                if ($response !== null) {
+                if ($response != null) {
                     // Decode the response
                     $boh = file_get_contents('php://input');
                     $responseData = json_decode($boh, TRUE);
-                    $answer = "login effettuato: " . $responseData['userId'] . "bye.";
+                    $answer = "login effettuato: " . $responseData['userId'] . "byeee.";
                 }
                 curl_close($ch);
             }
