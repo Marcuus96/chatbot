@@ -65,12 +65,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_HTTPHEADER => array (
-                        "Accept: application/json, text/javascript",
-                        "Accept-Language: it;q=0.5",
                         "Content-Type: application/json;charset=utf-8",
-                        "Connection: keep-alive",
-                        "Pragma: no-cache",
-                        "Cache-Control: no-cache"
+                        "Content-Length: " . strlen(json_encode($postData))
                     ),
                     CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
@@ -91,7 +87,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else
-                    $answer = "login effettuato: " . $responseData['userId'] . "bye. " . curl_error($ch);
+                    $answer = "login effettuato: " . $responseData['userId'] . " bye.";
                 }
             }
             break;
