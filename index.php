@@ -73,7 +73,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // Check for errors
                 if ($response === FALSE) {
-                    $answer = curl_error($ch);
+                    $answer = "errore!";
                     break;
                 }
 
@@ -82,7 +82,6 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     $responseData = json_decode($response, TRUE);
                     $answer = "login effettuato: " . $responseData['userId'] . "bye.";
                 }
-                curl_close($ch);
             }
             break;
 
