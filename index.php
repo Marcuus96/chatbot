@@ -78,7 +78,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 if ($response !== null) {
                     // Decode the response
-                    $responseData = json_decode($response, TRUE);
+                    $boh = file_get_contents('php://input');
+                    $responseData = json_decode($boh, TRUE);
                     $answer = "login effettuato: " . $responseData['userId'] . "bye.";
                 }
                 curl_close($ch);
