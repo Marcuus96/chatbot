@@ -83,7 +83,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else
-                    $answer = "login effettuato: " . $responseData . "bye.";
+                    $answer = "login effettuato: " . $responseData->userId . "bye.";
                 }
             }
             break;
