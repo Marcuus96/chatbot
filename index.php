@@ -22,7 +22,7 @@ $answer = getAnswer($intent_name, $parameters, $user_text, $old_parameters);
 $output_json = json_encode(array(
     "fulfillmentText" => $answer,
     "fulfillmentMessages" => array(array("text" => array("text" => array($answer)))),
-    "source" => "wesenseit.quinary.it"
+    "source" => "itesla.quinary.it/phpScheduleIt"
 ), JSON_PRETTY_PRINT);
 
 // log output
@@ -76,9 +76,12 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     break;
                 }
 
-                // Decode the response
-                $responseData = json_decode($response, TRUE);
-                $answer = "login effettuato: " . $responseData['isAuthenticated'];
+                if ($response !== null) {
+                    // Decode the response
+                    $responseData = json_decode($response, TRUE);
+                    $answer = "login effettuato: " . $responseData['isAuthenticated'];
+                }
+                curl_close($ch);
             }
             break;
 
