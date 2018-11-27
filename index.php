@@ -55,8 +55,21 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // The data to send to the API
                 $postData = array(
-                    'username' => $username,
-                    'password' => $password
+                    //'username' => $username,
+                    //'password' => $password
+                    "password" => $password,
+                    "language" => "it",
+                    "firstName" => "first",
+                    "lastName" => "last",
+                    "emailAddress" => "email@address.com",
+                    "userName" => $username,
+                    "timezone" => "Rome",
+                    "phone" => "123-456-7989",
+                    "organization" => "organization",
+                    "position" => "position",
+                    "customAttributes" => array("attributeId" => 99,
+                        "attributeValue" => "attribute value"),
+                    "groups" => array(1,2,4)
                 );
 
                 // Setup cURL
