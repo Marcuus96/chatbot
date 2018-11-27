@@ -121,11 +121,11 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     "allowParticipation" => true
                 );
 
-                $header = array(
-                    "X-phpScheduleIt-SessionToken: " . $session,
-                    "X-phpScheduleIt-UserId: " . $user,
-                    "Content-Type: application/json"
-                );
+                $header = json_encode(array(
+                    "X-phpScheduleIt-SessionToken" => $session,
+                    "X-phpScheduleIt-UserId" => $user,
+                    "Content-Type" => "application/json"
+                ));
 
 
                 // Setup cURL
