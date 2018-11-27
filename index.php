@@ -55,21 +55,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // The data to send to the API
                 $postData = array(
-                    //'username' => $username,
-                    //'password' => $password
-                    "password" => $password,
-                    "language" => "it",
-                    "firstName" => "first",
-                    "lastName" => "last",
-                    "emailAddress" => "email@address.com",
-                    "userName" => $username,
-                    "timezone" => "Rome",
-                    "phone" => "123-456-7989",
-                    "organization" => "organization",
-                    "position" => "position",
-                    "customAttributes" => array("attributeId" => 99,
-                        "attributeValue" => "attribute value"),
-                    "groups" => array(1,2,4)
+                    'username' => $username,
+                    'password' => $password
                 );
 
                 // Setup cURL
@@ -78,8 +65,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_HTTPHEADER => array (
-                        "Content-Type: application/json;charset=utf-8",
-                        "Content-Length: " . strlen(json_encode($postData))
+                        "Content-Type: application/json"
                     ),
                     CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
@@ -90,7 +76,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // Check for errors
                 if ($response === FALSE) {
-                    $answer = curl_error($ch) . ' ' . curl_errno($ch);
+                    $answer = curl_error($ch) . ' code: ' . curl_errno($ch);
                     break;
                 }
 
@@ -100,10 +86,9 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
-                        $answer = $responseData['users']['id'];
-                        //foreach ($responseData as $resp) {
-                            //$answer = $resp;
-                        //}
+                        foreach ($responseData as $resp) {
+                            $answer = $resp;
+                        }
                     }
                 }
                 curl_close($ch);
