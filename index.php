@@ -51,7 +51,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             {
                 // The data to send to the API
                 $login = array(
-                    'username' => $old_parameters['any'],
+                    'username' => 'marcoriva',
                     'password' => $parameters['anypas']
                 );
 
