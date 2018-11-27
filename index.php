@@ -101,9 +101,10 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
-                        foreach ($responseData as $resp) {
-                            $answer = $resp;
-                        }
+                        $answer = $responseData['users']['id'];
+                        //foreach ($responseData as $resp) {
+                            //$answer = $resp;
+                        //}
                     }
                 }
             }
