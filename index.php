@@ -75,14 +75,13 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 // Setup cURL
                 $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Users/');
                 curl_setopt_array($ch, array(
-                    CURLOPT_POST => FALSE,
-                    CURLOPT_HTTPGET => TRUE,
+                    CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_HTTPHEADER => array (
                         "Content-Type: application/json;charset=utf-8",
                         "Content-Length: " . strlen(json_encode($postData))
                     ),
-                    //CURLOPT_POSTFIELDS => json_encode($postData),
+                    CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
                 ));
 
@@ -91,7 +90,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // Check for errors
                 if ($response === FALSE) {
-                    $answer = "errore!";
+                    $answer = curl_error($ch) . ' ' . curl_errno($ch);
                     break;
                 }
 
@@ -107,6 +106,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                         //}
                     }
                 }
+                curl_close($ch);
             }
             break;
 
