@@ -51,7 +51,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             {
                 // The data to send to the API
                 $login = array(
-                    'username' => 'marcoriva',
+                    'username' => $old_parameters['any'],
                     'password' => $parameters['anypas']
                 );
 
@@ -83,7 +83,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                         $answer = "ERROR" . json_last_error();
                     else {
                         foreach ($responseData as $resp) {
-                            $answer = $resp . ' ' . $login['username'] . $login['password'];
+                            $answer = $resp . ' ' . $old_parameters['any'] . $login['password'];
                         }
                     }
                 }
