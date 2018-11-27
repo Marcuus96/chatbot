@@ -89,8 +89,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                             fwrite($myFile, $session . '\n');
                             fwrite($myFile, $user . '\n');
                             fclose($myFile);
-                        }
-                        else
+                        } else
                             $answer = 'errore di login. username o password errati.';
                     }
                 }
@@ -149,8 +148,22 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 }
 
                 if ($response != null) {
+                    // This will remove unwanted characters.
+                    for ($i = 0; $i <= 31; ++$i) {
+                        $checkLogin = str_replace(chr($i), "", $response);
+                    }
+                    $checkLogin = str_replace(chr(127), "", $response);
+                    
+// This is the most common part
+// Some file begins with 'efbbbf' to mark the beginning of the file. (binary level)
+// here we detect it and we remove it, basically it's the first 3 characters
+                    if (0 === strpos(bin2hex($checkLogin), 'efbbbf')) {
+                        $checkLogin = substr($checkLogin, 3);
+                    }
+
                     // Decode the response
-                    $responseData = json_decode($response, TRUE);
+                    $responseData = json_decode($checkLogin, TRUE);
+
                     if ($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
@@ -165,8 +178,6 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             break;
 
     }
-
-
 
 
     return $answer;
