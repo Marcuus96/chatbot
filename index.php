@@ -7,8 +7,7 @@ $query_result = $dialogflow_post_data['queryResult'];
 $intent_name = $query_result['intent']['displayName'];
 $parameters = $query_result['parameters'];
 $user_text = $query_result['queryText'];
-$output_context = $query_result['outputContexts'];
-$old_parameters = $output_context['parameters'];
+$old_parameters = $query_result['outputContexts'][0]['parameters'];
 
 // log input
 $log_file = "/var/www/html/bot/bot.log";
