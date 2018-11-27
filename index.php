@@ -147,13 +147,13 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     break;
                 }
 
-                if ($response != null) {
+                if ($response !== null) {
 
                     // Decode the response
                     $responseData = json_decode($response, TRUE);
 
                     if ($responseData === NULL)
-                        $answer = "ERROR" . json_last_error();
+                        $answer = "ERROR" . json_last_error() . ' ' . $responseData['referenceNumber'];
                     else {
                         if ($responseData['isPendingApproval'] === TRUE)
                             $answer = 'prenotazione avvenuta con successo grazie';
