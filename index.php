@@ -75,13 +75,14 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 // Setup cURL
                 $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Users/');
                 curl_setopt_array($ch, array(
-                    CURLOPT_POST => TRUE,
+                    CURLOPT_POST => FALSE,
+                    CURLOPT_HTTPGET => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_HTTPHEADER => array (
                         "Content-Type: application/json;charset=utf-8",
                         "Content-Length: " . strlen(json_encode($postData))
                     ),
-                    CURLOPT_POSTFIELDS => json_encode($postData),
+                    //CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
                 ));
 
