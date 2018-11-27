@@ -8,7 +8,7 @@ $intent_name = $query_result['intent']['displayName'];
 $parameters = $query_result['parameters'];
 $user_text = $query_result['queryText'];
 $output_context = $query_result['outputContexts'];
-$old_parameters = $output_context['parameters'];
+//$old_parameters = $output_context['parameters'];
 
 // log input
 $log_file = "/var/www/html/bot/bot.log";
@@ -18,7 +18,7 @@ $content = date('Y-m-d H:i:s') . " DialogFlow Post:\n" . $dialogflow_post . "\n"
 file_put_contents($log_file, $content, FILE_APPEND);
 
 // get output
-$answer = getAnswer($intent_name, $parameters, $user_text, $old_parameters);
+$answer = getAnswer($intent_name, $parameters, $user_text);
 $output_json = json_encode(array(
     "fulfillmentText" => $answer,
     "fulfillmentMessages" => array(array("text" => array("text" => array($answer)))),
@@ -33,7 +33,7 @@ file_put_contents($log_file, $content, FILE_APPEND);
 header('Content-type: application/json; charset=utf-8');
 echo $output_json;
 
-function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
+function getAnswer($intent_name, $parameters, $user_text)
 {
     $answer = "Puoi ripetere la richiesta?";
 
@@ -50,7 +50,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             break;
         case ('prenotazione - username - password') :
             {
-                $username = $old_parameters['any.original'];
+                $username = $parameters['any'];
                 $password = $parameters['anypas'];
 
                 // The data to send to the API
