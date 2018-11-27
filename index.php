@@ -102,6 +102,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 $myFile = fopen("testfile.txt", "r");
                 $session = fgets($myFile);
                 $user = fgets($myFile);
+                fclose($myFile);
 
                 $postData = array(
                     "accessories" => '',
@@ -122,6 +123,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 );
 
                 $header = array(
+                    "content-type" => 'application/json',
                     "X-phpScheduleIt-SessionToken" => $session,
                     "X-phpScheduleIt-UserId" => $user
                 );
