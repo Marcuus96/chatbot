@@ -59,7 +59,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => array (
+                    CURLOPT_HTTPHEADER => array(
                         "Content-Type: application/json"
                     ),
                     CURLOPT_POSTFIELDS => json_encode($login),
@@ -78,21 +78,81 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 if ($response != null) {
                     // Decode the response
                     $responseData = json_decode($response, TRUE);
-                    if($responseData === NULL)
+                    if ($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
-                        if($responseData['isAuthenticated'] === TRUE)
+                        if ($responseData['isAuthenticated'] === TRUE)
                             $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
                         else
-                            $answer = 'errore di login';
+                            $answer = 'errore di login. username o password errati.';
+                    }
+                }
+                curl_close($ch);
+            }
+            break;
+        case('prenotazione - username - password - day - room - hour - end') :
+            {
+
+                $postData = array(
+                    "accessories" => '',
+                    "customAttributes" => '',
+                    "description" => "new reservation",
+                    "endDateTime" => "2018-11-27T18:35:50+0100",
+                    "invitees" => '',
+                    "participants" => '',
+                    "recurrenceRule" => '',
+                    "resourceId" => '1',
+                    "resources" => '',
+                    "startDateTime" => "2018-11-27T15:35:50+0100",
+                    "title" => "new res",
+                    "userId" => 1,
+                    "startReminder" => '',
+                    "endReminder" => 'null',
+                    "allowParticipation" => 'true'
+                );
+
+
+                // Setup cURL
+                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Reservations/');
+                curl_setopt_array($ch, array(
+                    CURLOPT_POST => TRUE,
+                    CURLOPT_RETURNTRANSFER => TRUE,
+                    CURLOPT_HTTPHEADER => array(
+                        "Content-Type: application/json"
+                    ),
+                    CURLOPT_POSTFIELDS => json_encode($postData),
+                    CURLOPT_FAILONERROR => TRUE
+                ));
+
+                // Send the request
+                $response = curl_exec($ch);
+
+                // Check for errors
+                if ($response === FALSE) {
+                    $answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                    break;
+                }
+
+                if ($response != null) {
+                    // Decode the response
+                    $responseData = json_decode($response, TRUE);
+                    if ($responseData === NULL)
+                        $answer = "ERROR" . json_last_error();
+                    else {
+                        if ($responseData['isPendingApproval'] === TRUE)
+                            $answer = 'prenotazione avvenuta con successo grazie';
+                        else
+                            $answer = 'errore nella prenotazione!';
                     }
                 }
                 curl_close($ch);
             }
             break;
 
-
     }
+
+
+
 
     return $answer;
 }
