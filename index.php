@@ -86,8 +86,11 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     $responseData = json_decode($response, TRUE);
                     if($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
-                    else
-                    $answer = "login effettuato: " . $responseData['userId'] . " bye.";
+                    else {
+                        foreach ($responseData as $resp) {
+                            $answer = $resp;
+                        }
+                    }
                 }
             }
             break;
