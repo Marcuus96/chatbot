@@ -81,8 +81,15 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if ($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
-                        if ($responseData['isAuthenticated'] === TRUE)
+                        if ($responseData['isAuthenticated'] === TRUE) {
                             $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
+                            $myFile = fopen("testfile.txt", "w");
+                            $session = $responseData['sessionToken'];
+                            $user = $responseData['userId'];
+                            fwrite($myFile, $session . '\n');
+                            fwrite($myFile, $user . '\n');
+                            fclose($myFile);
+                        }
                         else
                             $answer = 'errore di login. username o password errati.';
                     }
@@ -92,6 +99,9 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             break;
         case('prenotazione - username - password - day - room - hour - end') :
             {
+                $myFile = fopen("testfile.txt", "r");
+                $session = fgets($myFile);
+                $user = fgets($myFile);
 
                 $postData = array(
                     "accessories" => '',
@@ -111,15 +121,18 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     "allowParticipation" => 'true'
                 );
 
+                $header = array(
+                    "X-phpScheduleIt-SessionToken" => $session,
+                    "X-phpScheduleIt-UserId" => $user
+                );
+
 
                 // Setup cURL
                 $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Reservations/');
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => array(
-                        "Content-Type: application/json"
-                    ),
+                    CURLOPT_HTTPHEADER => json_encode($header),
                     CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
                 ));
