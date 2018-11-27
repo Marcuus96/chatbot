@@ -81,9 +81,10 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
-                        foreach ($responseData as $resp) {
-                            $answer = $resp . ' ' . $old_parameters['any'] . $login['password'];
-                        }
+                        if($responseData['isAuthenticated'] === TRUE)
+                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
+                        else
+                            $answer = 'errore di login';
                     }
                 }
                 curl_close($ch);
