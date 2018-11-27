@@ -111,14 +111,14 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     "invitees" => '',
                     "participants" => '',
                     "recurrenceRule" => '',
-                    "resourceId" => '1',
+                    "resourceId" => 1,
                     "resources" => '',
                     "startDateTime" => "2018-11-29T15:35:50+0100",
                     "title" => "new res",
                     "userId" => 1,
                     "startReminder" => '',
-                    "endReminder" => 'null',
-                    "allowParticipation" => 'true'
+                    "endReminder" => null,
+                    "allowParticipation" => true
                 );
 
                 $header = array(
