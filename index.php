@@ -79,7 +79,7 @@ function getAnswer($intent_name, $parameters, $user_text)
                         $answer = "ERROR" . json_last_error();
                     else {
                         foreach ($responseData as $resp) {
-                            $answer = $resp . $login['username'] . $login['password'];
+                            $answer = $resp . ' ' . $login['username'] . ' ' . $login['password'];
                         }
                     }
                 }
