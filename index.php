@@ -122,9 +122,9 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 );
 
                 $header = array(
-                    "Content-Type" => 'application/json',
-                    "X-phpScheduleIt-SessionToken" => $session,
-                    "X-phpScheduleIt-UserId" => $user
+                    "Content-Type: application/json",
+                    "X-phpScheduleIt-SessionToken: " . $session,
+                    "X-phpScheduleIt-UserId: " . $user,
                 );
 
 
@@ -133,7 +133,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => json_encode($header),
+                    CURLOPT_HTTPHEADER => $header,
                     CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
                 ));
