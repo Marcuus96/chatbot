@@ -73,7 +73,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 );
 
                 // Setup cURL
-                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Authentication/Authenticate');
+                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Users/');
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
