@@ -153,21 +153,16 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                         "allowParticipation" => true
                     );
 
-                    $content = "Content-Type: application/json";
-                    $sessionHeader = "X-Booked-SessionToken: " . $responseDataLogin['sessionToken'];
-                    $userHeader = "X-Booked-UserId: " . $responseDataLogin['userId'];
-
-
                     // Setup cURL
                     $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Reservations/');
                     curl_setopt_array($ch, array(
                         CURLOPT_POST => TRUE,
                         CURLOPT_RETURNTRANSFER => TRUE,
-                        CURLOPT_HTTPHEADER => [
-                            $content,
-                            $sessionHeader,
-                            $userHeader,
-                        ],
+                        CURLOPT_HTTPHEADER => array(
+                            "X-Booked-SessionToken" => $responseDataLogin['sessionToken'],
+                            "X-Booked-UserId" => $responseDataLogin['userId']
+
+                        ),
                         CURLOPT_POSTFIELDS => json_encode($postData),
                         CURLOPT_FAILONERROR => TRUE
                     ));
@@ -177,8 +172,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                     // Check for errors
                     if ($response === FALSE) {
-                        $answer = $content . $sessionHeader . $userHeader;
-                        //$answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                        $answer = curl_error($ch) . ' code: ' . curl_errno($ch);
                         break;
                     }
 
