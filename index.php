@@ -60,7 +60,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
                     CURLOPT_HTTPHEADER => array(
-                        "Content-Type: application/json"
+                        "Content-Type: application\/json"
                     ),
                     CURLOPT_POSTFIELDS => json_encode($login),
                     CURLOPT_FAILONERROR => TRUE
@@ -99,11 +99,9 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
         case('prenotazione - username - password - day - room - hour - end') :
             {
                 $myFile = fopen("testfile.txt", "r");
-                $session = fgets($myFile);
-                $user = fgets($myFile);
+                $session = trim(fgets($myFile));
+                $user = trim(fgets($myFile));
                 fclose($myFile);
-                str_replace('\n','',$session);
-                str_replace('\n','',$user);
 
                 $postData = array(
                     "accessories" => '',
