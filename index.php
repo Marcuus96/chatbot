@@ -82,13 +82,13 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                         $answer = "ERROR" . json_last_error();
                     else {
                         if ($responseData['isAuthenticated'] === TRUE) {
-                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
                             $myFile = fopen("testfile.txt", "w");
-                            $session = $responseData['sessionToken'];
-                            $user = $responseData['userId'];
-                            fwrite($myFile, $session . '\n');
-                            fwrite($myFile, $user . '\n');
+                            $session = $responseData['sessionToken'] . '\n';
+                            $user = $responseData['userId'] . '\n';
+                            fwrite($myFile, $session);
+                            fwrite($myFile, $user);
                             fclose($myFile);
+                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare? ' . $session . ' ' . $user;
                         } else
                             $answer = 'errore di login. username o password errati.';
                     }
