@@ -172,7 +172,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                     // Check for errors
                     if ($response === FALSE) {
-                        $answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                        //$answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                        $answer = $responseDataLogin['isAuthenticated'];
                         break;
                     }
 
@@ -182,8 +183,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                         $responseData = json_decode($response, TRUE);
 
                         if ($responseData === NULL)
-                            //$answer = "ERROR" . json_last_error() . ' ' . $responseData['referenceNumber'];
-                            $answer = 'yup' . $content . $sessionHeader . $userHeader;
+                            $answer = "ERROR" . json_last_error() . ' ' . $responseData['referenceNumber'];
                         else {
                             if ($responseData['isPendingApproval'] === TRUE)
                                 $answer = 'prenotazione avvenuta con successo grazie';
