@@ -98,11 +98,12 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             break;
         case('prenotazione - username - password - day - room - hour - end') :
             {
-                ini_set("auto_detect_line_endings", true);
                 $myFile = fopen("testfile.txt", "r");
                 $session = fgets($myFile);
                 $user = fgets($myFile);
                 fclose($myFile);
+                str_replace('\n','',$session);
+                str_replace('\n','',$user);
 
                 $postData = array(
                     "accessories" => '',
