@@ -143,7 +143,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // Check for errors
                 if ($response === FALSE) {
-                    $answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                    $answer = $header;
+                    //$answer = curl_error($ch) . ' code: ' . curl_errno($ch);
                     break;
                 }
 
