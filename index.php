@@ -123,8 +123,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 $header = array(
                     "Content-Type: application/json",
-                    json_encode(array ("X-phpScheduleIt-SessionToken" => $session,
-                    "X-phpScheduleIt-UserId" => $user))
+                    "X-Booked-SessionToken: " . $session,
+                    "X-Booked-UserId: " . $user
                 );
 
 
