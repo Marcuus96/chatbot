@@ -88,7 +88,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                             fwrite($myFile, $session);
                             fwrite($myFile, $user);
                             fclose($myFile);
-                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare? ' . $session . ' ' . $user;
+                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
                         } else
                             $answer = 'errore di login. username o password errati.';
                     }
@@ -122,7 +122,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 );
 
                 $header = array(
-                    "Content-Type" => 'application/json',
+                    "Content-Type" => "application/json",
                     "X-phpScheduleIt-SessionToken" => $session,
                     "X-phpScheduleIt-UserId" => $user
                 );
