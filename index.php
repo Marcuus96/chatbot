@@ -83,8 +83,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     else {
                         if ($responseData['isAuthenticated'] === TRUE) {
                             $myFile = fopen("testfile.txt", "w");
-                            $session = $responseData['sessionToken'] . '\n';
-                            $user = $responseData['userId'] . '\n';
+                            $session = $responseData['sessionToken'] . "\n";
+                            $user = $responseData['userId'] . "\n";
                             fwrite($myFile, $session);
                             fwrite($myFile, $user);
                             fclose($myFile);
