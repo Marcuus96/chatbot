@@ -121,10 +121,9 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     "allowParticipation" => true
                 );
 
-                $header = array(
-                    "X-Booked-SessionToken" => $session,
-                    "X-Booked-UserId" => $user
-                );
+                $content = "Content-Type: application/json";
+                $sessionHeader = "X-Booked-SessionToken: " . $session;
+                $userHeader = "X-Booked-UserId: " . $user;
 
 
                 // Setup cURL
@@ -132,7 +131,11 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => json_encode($header),
+                    CURLOPT_HTTPHEADER => [
+                        $content,
+                        $sessionHeader,
+                        $userHeader,
+                    ],
                     CURLOPT_POSTFIELDS => json_encode($postData),
                     CURLOPT_FAILONERROR => TRUE
                 ));
@@ -142,7 +145,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // Check for errors
                 if ($response === FALSE) {
-                    $answer = json_encode($header);
+                    $answer = $content . $sessionHeader . $userHeader;
                     //$answer = curl_error($ch) . ' code: ' . curl_errno($ch);
                     break;
                 }
