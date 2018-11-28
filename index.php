@@ -83,8 +83,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     else {
                         if ($responseData['isAuthenticated'] === TRUE) {
                             $myFile = fopen("testfile.txt", "w");
-                            $session = $responseData['sessionToken'] . "\n";
-                            $user = $responseData['userId'] . "\n";
+                            $session = $login['username'] . "\n";
+                            $user = $login['password'] . "\n";
                             fwrite($myFile, $session);
                             fwrite($myFile, $user);
                             fclose($myFile);
@@ -98,45 +98,23 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
             break;
         case('prenotazione - username - password - day - room - hour - end') :
             {
+
                 $myFile = fopen("testfile.txt", "r");
-                $session = trim(fgets($myFile));
-                $user = trim(fgets($myFile));
+                $login = array(
+                    'user' => trim(fgets($myFile)),
+                    'pass' => trim(fgets($myFile))
+                );
                 fclose($myFile);
 
-                $postData = array(
-                    "accessories" => '',
-                    "customAttributes" => '',
-                    "description" => "new reservation",
-                    "endDateTime" => "2018-11-29T18:35:50+0100",
-                    "invitees" => '',
-                    "participants" => '',
-                    "recurrenceRule" => '',
-                    "resourceId" => 1,
-                    "resources" => '',
-                    "startDateTime" => "2018-11-29T15:35:50+0100",
-                    "title" => "new res",
-                    "userId" => 1,
-                    "startReminder" => '',
-                    "endReminder" => null,
-                    "allowParticipation" => true
-                );
 
-                $content = "Content-Type: application/json";
-                $sessionHeader = "X-Booked-SessionToken: " . $session;
-                $userHeader = "X-Booked-UserId: " . $user;
-
-
-                // Setup cURL
-                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Reservations/');
+                $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Authentication/Authenticate');
                 curl_setopt_array($ch, array(
                     CURLOPT_POST => TRUE,
                     CURLOPT_RETURNTRANSFER => TRUE,
-                    CURLOPT_HTTPHEADER => [
-                        $content,
-                        $sessionHeader,
-                        $userHeader,
-                    ],
-                    CURLOPT_POSTFIELDS => json_encode($postData),
+                    CURLOPT_HTTPHEADER => array(
+                        "Content-Type: application\/json"
+                    ),
+                    CURLOPT_POSTFIELDS => json_encode($login),
                     CURLOPT_FAILONERROR => TRUE
                 ));
 
@@ -145,30 +123,84 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 // Check for errors
                 if ($response === FALSE) {
-                    $answer = $content . $sessionHeader . $userHeader;
-                    //$answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                    $answer = curl_error($ch) . ' code: ' . curl_errno($ch);
                     break;
                 }
 
-                if ($response !== null) {
-
+                if ($response != null) {
                     // Decode the response
-                    $responseData = json_decode($response, TRUE);
-
-                    if ($responseData === NULL)
-                        //$answer = "ERROR" . json_last_error() . ' ' . $responseData['referenceNumber'];
-                        $answer = 'yup' . $content . $sessionHeader . $userHeader;
-                    else {
-                        if ($responseData['isPendingApproval'] === TRUE)
-                            $answer = 'prenotazione avvenuta con successo grazie';
-                        else
-                            $answer = 'errore nella prenotazione!';
+                    $responseDataLogin = json_decode($response, TRUE);
+                    if ($responseDataLogin === NULL) {
+                        $answer = "ERROR" . json_last_error();
+                        break;
                     }
+
+                    $postData = array(
+                        "accessories" => '',
+                        "customAttributes" => '',
+                        "description" => "new reservation",
+                        "endDateTime" => "2018-11-29T18:35:50+0100",
+                        "invitees" => '',
+                        "participants" => '',
+                        "recurrenceRule" => '',
+                        "resourceId" => 1,
+                        "resources" => '',
+                        "startDateTime" => "2018-11-29T15:35:50+0100",
+                        "title" => "new res",
+                        "userId" => 1,
+                        "startReminder" => '',
+                        "endReminder" => null,
+                        "allowParticipation" => true
+                    );
+
+                    $content = "Content-Type: application/json";
+                    $sessionHeader = "X-Booked-SessionToken: " . $responseDataLogin['sessionToken'];
+                    $userHeader = "X-Booked-UserId: " . $responseDataLogin['userId'];
+
+
+                    // Setup cURL
+                    $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Reservations/');
+                    curl_setopt_array($ch, array(
+                        CURLOPT_POST => TRUE,
+                        CURLOPT_RETURNTRANSFER => TRUE,
+                        CURLOPT_HTTPHEADER => [
+                            $content,
+                            $sessionHeader,
+                            $userHeader,
+                        ],
+                        CURLOPT_POSTFIELDS => json_encode($postData),
+                        CURLOPT_FAILONERROR => TRUE
+                    ));
+
+                    // Send the request
+                    $response = curl_exec($ch);
+
+                    // Check for errors
+                    if ($response === FALSE) {
+                        $answer = $content . $sessionHeader . $userHeader;
+                        //$answer = curl_error($ch) . ' code: ' . curl_errno($ch);
+                        break;
+                    }
+
+                    if ($response !== null) {
+
+                        // Decode the response
+                        $responseData = json_decode($response, TRUE);
+
+                        if ($responseData === NULL)
+                            //$answer = "ERROR" . json_last_error() . ' ' . $responseData['referenceNumber'];
+                            $answer = 'yup' . $content . $sessionHeader . $userHeader;
+                        else {
+                            if ($responseData['isPendingApproval'] === TRUE)
+                                $answer = 'prenotazione avvenuta con successo grazie';
+                            else
+                                $answer = 'errore nella prenotazione!';
+                        }
+                    }
+                    curl_close($ch);
                 }
-                curl_close($ch);
             }
             break;
-
     }
 
 
