@@ -101,8 +101,8 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
 
                 $myFile = fopen("testfile.txt", "r");
                 $login = array(
-                    'user' => trim(fgets($myFile)),
-                    'pass' => trim(fgets($myFile))
+                    'username' => trim(fgets($myFile)),
+                    'password' => trim(fgets($myFile))
                 );
                 fclose($myFile);
 
