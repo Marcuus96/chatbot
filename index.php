@@ -122,7 +122,6 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                 );
 
                 $header = array(
-                    "Content-Type: application/json",
                     "X-Booked-SessionToken" => $session,
                     "X-Booked-UserId" => $user
                 );
