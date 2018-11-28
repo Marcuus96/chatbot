@@ -88,7 +88,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                             fwrite($myFile, $session);
                             fwrite($myFile, $user);
                             fclose($myFile);
-                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
+                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare? '.$responseData['sessionExpires'];
                         } else
                             $answer = 'errore di login. username o password errati.';
                     }
