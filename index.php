@@ -53,7 +53,7 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     'username' => $old_parameters['any'],
                     'password' => $parameters['anypas']
                 );
-
+/*
                 // Setup cURL
                 $ch = curl_init('http://itesla.quinary.it/phpScheduleIt/Web/Services/Authentication/Authenticate');
                 curl_setopt_array($ch, array(
@@ -81,19 +81,19 @@ function getAnswer($intent_name, $parameters, $user_text, $old_parameters)
                     if ($responseData === NULL)
                         $answer = "ERROR" . json_last_error();
                     else {
-                        if ($responseData['isAuthenticated'] === TRUE) {
+                        if ($responseData['isAuthenticated'] === TRUE) {*/
                             $myFile = fopen("testfile.txt", "w");
                             $session = $login['username'] . "\n";
                             $user = $login['password'] . "\n";
                             fwrite($myFile, $session);
                             fwrite($myFile, $user);
                             fclose($myFile);
-                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';
+                            $answer = 'login effettuato con successo. per che giorno vuoi prenotare?';/*
                         } else
                             $answer = 'errore di login. username o password errati.';
                     }
                 }
-                curl_close($ch);
+                curl_close($ch);*/
             }
             break;
         case('prenotazione - username - password - day - room - hour - end') :
